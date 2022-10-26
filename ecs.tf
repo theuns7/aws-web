@@ -27,7 +27,7 @@ resource "aws_ecs_service" "ecs_service" {
   }
 }
 
-esource "aws_ecs_task_definition" "task" {
+resource "aws_ecs_task_definition" "task" {
   family                   = "service"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]

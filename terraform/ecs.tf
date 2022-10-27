@@ -1,3 +1,7 @@
+data "aws_iam_role" "ecs_task_execution_role" {
+  name = "ecsTaskExecutionRole"
+}
+
 resource "aws_ecs_cluster" "cluster" {
   name = "helloweb-cluster"
 }
@@ -33,6 +37,7 @@ resource "aws_ecs_task_definition" "ecs_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 512
   memory                   = 2048
+  execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
   container_definitions    = <<DEFINITION
   [
     {

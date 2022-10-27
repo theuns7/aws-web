@@ -1,5 +1,5 @@
 locals {
-  api_origin_id = "aws-web-alb"
+  aws_web_origin_id = "aws-web-alb"
 }
 
 resource "aws_cloudfront_distribution" "cf_distribution" {
@@ -10,7 +10,7 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
 
   origin {
     domain_name = aws_alb.alb.dns_name
-    origin_id   = local.api_origin_id
+    origin_id   = local.aws_web_origin_id
     custom_origin_config {
       http_port              = 80
       https_port             = 443
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
     path_pattern     = "/*"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = local.api_origin_id
+    target_origin_id = local.aws_web_origin_id
 
     forwarded_values {
       query_string = true
@@ -43,7 +43,7 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.s3_origin_id
+    target_origin_id = local.aws_web_origin_id
 
     forwarded_values {
       query_string = false

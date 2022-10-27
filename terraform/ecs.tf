@@ -19,7 +19,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_pa" {
 }
 
 resource "aws_ecs_cluster" "cluster" {
-  name = "helloweb-cluster"
+  name = "aws-web-cluster"
 }
 
 resource "aws_ecs_cluster_capacity_providers" "cluster" {
@@ -34,7 +34,7 @@ resource "aws_ecs_cluster_capacity_providers" "cluster" {
 }
 
 resource "aws_ecs_service" "ecs_service" {
-  name              = "helloweb-service"
+  name              = "aws-web-service"
   cluster           = aws_ecs_cluster.cluster.id
   task_definition   = aws_ecs_task_definition.ecs_task.arn
   launch_type       = "FARGATE"
@@ -44,6 +44,12 @@ resource "aws_ecs_service" "ecs_service" {
     security_groups  = [aws_security_group.allow_http_in.id, aws_security_group.allow_all_out.id]
     subnets          = [var.subnet1_id, var.subnet2_id] # Hard coded subnet ids. Use 2 of the subnets already created
     assign_public_ip = true
+  }
+
+    load_balancer {
+    target_group_arn = aws_lb_target_group.lb_target_group.arn
+    container_name   = "aws-web"
+    container_port   = "80"
   }
 }
 

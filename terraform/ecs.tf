@@ -38,7 +38,7 @@ resource "aws_ecs_service" "ecs_service" {
   cluster           = aws_ecs_cluster.cluster.id
   task_definition   = aws_ecs_task_definition.ecs_task.arn
   launch_type       = "FARGATE"
-  desired_count     = 1
+  desired_count     = 2
 
   network_configuration {
     security_groups  = [aws_security_group.allow_http_in.id, aws_security_group.allow_all_out.id]

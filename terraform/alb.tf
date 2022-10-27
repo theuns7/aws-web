@@ -1,6 +1,6 @@
 resource "aws_alb" "alb" {
   name               = "aws-web-lb"
-  internal           = true
+  internal           = false
   load_balancer_type = "application"
 
   security_groups    = [aws_security_group.allow_http_in.id, aws_security_group.allow_all_out.id]
@@ -16,7 +16,7 @@ resource "aws_lb_target_group" "lb_target_group" {
 
   health_check {
     enabled = true
-    path    = "/index.html"
+    path    = "/health.html"
   }
 
   depends_on = [aws_alb.alb]

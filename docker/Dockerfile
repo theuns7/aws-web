@@ -1,10 +1,8 @@
-# nginx state for serving content
 FROM nginx:alpine
-# Set working directory to nginx asset directory
 WORKDIR /usr/share/nginx/html
-# Remove default nginx static assets
+# Remove default nginx static pages
 RUN rm -rf ./*
-# Copy static assets over
+# Copy our web-app over
 COPY web-app/* ./
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

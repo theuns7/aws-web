@@ -2,5 +2,6 @@
 
 cd ..
 sudo docker build -t static-nginx -f docker/Dockerfile .
-aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${DOCKER_REPO}
-docker push ${DOCKER_REPO}/${JOB_NAME}:latest
+docker tag static-nginx ${DOCKER_REPO}/static-nginx:latest
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${DOCKER_REPO}
+docker push ${DOCKER_REPO}/static-nginx:latest

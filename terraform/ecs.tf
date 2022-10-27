@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "ecs_task" {
   container_definitions    = <<DEFINITION
   [
     {
-      "name"      : "nginx",
-      "image"     : "nginx:1.23.2",
+      "name"      : "aws-web",
+      "image"     : "980318628917.dkr.ecr.us-east-1.amazonaws.com/aws-web:latest",
       "cpu"       : 512,
       "memory"    : 2048,
       "essential" : true,

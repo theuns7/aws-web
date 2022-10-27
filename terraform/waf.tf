@@ -126,8 +126,6 @@ resource "aws_wafv2_web_acl" "waf-aws-web-lb" {
     metric_name                = "waf-aws-web-lb"
     sampled_requests_enabled   = true
   }
-
-  tags = local.tags_waf
 }
 
 resource "aws_wafv2_web_acl_association" "waf-aws-web-lb" {

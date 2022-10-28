@@ -40,10 +40,14 @@ resource "aws_ecs_service" "ecs_service" {
   launch_type       = "FARGATE"
   desired_count     = 2
 
+  lifecycle {
+      ignore_changes = [desired_count]
+    }
+
   network_configuration {
     security_groups  = [aws_security_group.allow_http_in.id, aws_security_group.allow_all_out.id]
     subnets          = [var.subnet1_id, var.subnet2_id] # Hard coded subnet ids. Use 2 of the subnets already created
-    assign_public_ip = false
+    assign_public_ip = true
   }
 
     load_balancer {

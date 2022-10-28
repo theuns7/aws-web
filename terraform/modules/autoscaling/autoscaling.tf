@@ -1,8 +1,4 @@
-variable "ecs_cluster" {}
-
-variable "ecs_service" {}
-
-resource "aws_appautoscaling_target" "dev_to_target" {
+resource "aws_appautoscaling_target" "as_target" {
   max_capacity = 10
   min_capacity = 2
   resource_id = "service/${var.ecs_cluster.name}/${var.ecs_service.name}"
@@ -10,12 +6,12 @@ resource "aws_appautoscaling_target" "dev_to_target" {
   service_namespace = "ecs"
 }
 
-resource "aws_appautoscaling_policy" "dev_to_memory" {
-  name               = "dev-to-memory"
+resource "aws_appautoscaling_policy" "ap_memory" {
+  name               = "ap-memory"
   policy_type        = "TargetTrackingScaling"
-  resource_id        = aws_appautoscaling_target.dev_to_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.dev_to_target.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.dev_to_target.service_namespace
+  resource_id        = aws_appautoscaling_target.as_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.as_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.as_target.service_namespace
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
@@ -26,12 +22,12 @@ resource "aws_appautoscaling_policy" "dev_to_memory" {
   }
 }
 
-resource "aws_appautoscaling_policy" "dev_to_cpu" {
-  name = "dev-to-cpu"
+resource "aws_appautoscaling_policy" "ap_cpu" {
+  name = "ap-cpu"
   policy_type = "TargetTrackingScaling"
-  resource_id = aws_appautoscaling_target.dev_to_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.dev_to_target.scalable_dimension
-  service_namespace = aws_appautoscaling_target.dev_to_target.service_namespace
+  resource_id = aws_appautoscaling_target.as_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.as_target.scalable_dimension
+  service_namespace = aws_appautoscaling_target.as_target.service_namespace
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {

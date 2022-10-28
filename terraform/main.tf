@@ -35,10 +35,8 @@ module "cloudfront" {
   alb_dns_name    = module.alb.alb.dns_name
 }
 
-#module "autoscaling" {
-#  source = "./modules/autoscaling"
-#  ecs_cluster = module.ecs.ecs_cluster
-#  ecs_service = module.ecs.ecs_service
-#}
-
-
+module "autoscaling" {
+  source = "./modules/autoscaling"
+  ecs_cluster = module.ecs.ecs_cluster
+  ecs_service = module.ecs.ecs_service
+}

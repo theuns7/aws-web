@@ -3,8 +3,8 @@ resource "aws_alb" "alb" {
   internal           = false
   load_balancer_type = "application"
 
-  security_groups    = [aws_security_group.allow_http_in.id, aws_security_group.allow_all_out.id]
-  subnets            = [var.subnet1_id, var.subnet2_id] # Hard coded subnet ids. Use 2 of the subnets already created
+  security_groups    = var.security_group_ids
+  subnets            = var.subnet_ids
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
@@ -31,8 +31,4 @@ resource "aws_alb_listener" "alb_listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
-}
-
-output "aws_web_url" {
-  value = "http://${aws_alb.alb.dns_name}"
 }

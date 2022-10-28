@@ -9,7 +9,7 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
   default_root_object = "index.html"
 
   origin {
-    domain_name = aws_alb.alb.dns_name
+    domain_name = var.alb_dns_name
     origin_id   = local.aws_web_origin_id
     custom_origin_config {
       http_port              = 80
@@ -59,7 +59,7 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
     max_ttl                = 86400
   }
 
-  price_class = "PriceClass_200"
+  price_class = "PriceClass_100"
 
   restrictions {
     geo_restriction {
@@ -73,6 +73,3 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
   }
 }
 
-output "cloudfront_dns" {
-  value = aws_cloudfront_distribution.cf_distribution.domain_name
-}
